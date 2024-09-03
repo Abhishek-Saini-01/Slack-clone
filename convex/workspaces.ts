@@ -35,7 +35,7 @@ export const join = mutation({
             .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.workspaceId).eq("userId", userId))
             .unique();
 
-        if(existingMember){
+        if (existingMember) {
             throw new Error("Already a member of this workspace");
         }
 
@@ -132,6 +132,30 @@ export const get = query({
         return workspaces;
     }
 })
+
+export const getInfoById = query({
+    args: {
+        id: v.id("workspaces")
+    },
+    handler: async (ctx, args) => {
+        const userId = await auth.getUserId(ctx);
+        if (!userId) {
+            throw new Error("Unauthorized");
+        }
+
+        const member = await ctx.db.query("members")
+            .withIndex("by_workspace_id_user_id", (q) => q.eq("workspaceId", args.id).eq("userId", userId))
+            .unique();
+        
+        const workspace = await ctx.db.get(args.id);
+
+        return {
+            name: workspace?.name,
+            isMember: !!member
+        }
+    },
+})
+
 export const getById = query({
     args: { id: v.id("workspaces") },
     handler: async (ctx, args) => {

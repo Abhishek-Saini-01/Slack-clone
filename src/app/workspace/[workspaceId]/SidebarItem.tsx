@@ -5,6 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { LucideIcon } from "lucide-react"
 import Link from "next/link"
 import { IconType } from "react-icons/lib"
+import { Id } from "../../../../convex/_generated/dataModel"
 
 const SidebarItemVarients = cva(
     "flex items-center gap-1.5 justify-start font-noraml h-7 px-[18px] text-sm overflow-hidden",
@@ -24,13 +25,13 @@ const SidebarItemVarients = cva(
 interface SidebarItemProps {
     label: string
     icon: LucideIcon | IconType
-    id: string
+    channelId: Id<"channels"> | string
     varient?: VariantProps<typeof SidebarItemVarients>["varient"];
 }
 const SidebarItem = ({
     label,
     icon:Icon,
-    id,
+    channelId,
     varient
 }: SidebarItemProps) => {
     const workspaceId = useWorkspaceId();
@@ -42,9 +43,7 @@ const SidebarItem = ({
             size="sm"
             className={cn(SidebarItemVarients({varient}))}
         >
-            <Link
-                href={`/worksapce/${workspaceId}/channel/${id}`}
-            >
+            <Link href={`/workspace/${workspaceId}/channel/${channelId}`}>
                 <Icon className="size-3.5 mr-1 shrink-0" />
                 <span className="text-sm truncate">{label}</span>
             </Link>

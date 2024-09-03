@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={`overflow-hidden ${inter.className}`}>
           <ConvexClientProvider>
             <JotaiProvider>
               <Toaster position="top-center" />
