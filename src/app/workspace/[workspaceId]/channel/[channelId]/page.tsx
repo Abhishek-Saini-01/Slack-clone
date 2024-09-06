@@ -39,7 +39,7 @@ const ChannelIdPage = () => {
                 data={results}
                 loadMore={loadMore}
                 isLoadingMore={status === "LoadingMore"}
-                canLoadMore={status === "Exhausted"}
+                canLoadMore={status === "CanLoadMore"}
             />
             <ChatInput
                 placeholder={`Message #${channel.name}`}
