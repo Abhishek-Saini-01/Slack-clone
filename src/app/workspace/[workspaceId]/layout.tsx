@@ -1,5 +1,6 @@
 "use client";
 
+import { Profile } from "@/components/Profile";
 import Thread from "@/components/Thread";
 import {
   ResizableHandle,
@@ -18,9 +19,9 @@ interface WorkspaceIdLayoutProps {
   children: ReactNode
 }
 const WorkspaceIdLayout = ({ children }: WorkspaceIdLayoutProps) => {
-  const { onClose, parentMessageId } = usePanel();
+  const { onClose, parentMessageId, profileMemberId } = usePanel();
 
-  const showPanel = !!parentMessageId;
+  const showPanel = !!parentMessageId || !!profileMemberId;
 
   return (
     <div className="h-full">
@@ -52,8 +53,13 @@ const WorkspaceIdLayout = ({ children }: WorkspaceIdLayoutProps) => {
                 minSize={20}
               >
                 {parentMessageId ? (
-                  <Thread 
+                  <Thread
                     messageId={parentMessageId as Id<"messages">}
+                    onClose={onClose}
+                  />
+                ) : profileMemberId ? (
+                  <Profile
+                    memberId={profileMemberId as Id<"members">}
                     onClose={onClose}
                   />
                 ) : (
