@@ -5,6 +5,7 @@ import { useCurrentMember } from "@/features/members/api/useCurrentMember";
 import { useGetMembers } from "@/features/members/api/useGetMembers";
 import { useGetWorkspaceById } from "@/features/workspaces/api/useGetWorkspaceById";
 import { useChannelId } from "@/hooks/useChannelId";
+import { useMemberId } from "@/hooks/useMemberId";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
 import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal } from "lucide-react";
 import SidebarItem from "./SidebarItem";
@@ -14,6 +15,7 @@ import WorkspaceSection from "./WorkspaceSection";
 
 
 const WorkspaceSidebar = () => {
+  const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();  
   const [_open, setOpen ] = useCreateChannelModal();
@@ -81,6 +83,7 @@ const WorkspaceSidebar = () => {
             id={item._id}
             label={item.user.name}
             image={item.user.image}
+            varient={item._id === memberId ? "active" : "default"}
           />
         ))}
       </WorkspaceSection>

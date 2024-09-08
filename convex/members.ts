@@ -3,9 +3,43 @@ import { Id } from "./_generated/dataModel";
 import { query, QueryCtx } from "./_generated/server";
 import { auth } from "./auth";
 
-const populateUser = (ctx: QueryCtx, userId: Id<"users">) =>{
+const populateUser = (ctx: QueryCtx, userId: Id<"users">) => {
     return ctx.db.get(userId);
 }
+
+export const getById = query({
+    args: { memberId: v.id("members") },
+    handler: async (ctx, args) => {
+        const userId = await auth.getUserId(ctx);
+        if (!userId) {
+            return null;
+        }
+
+        const member = await ctx.db.get(args.memberId);
+        if (!member) {
+            return null;
+        }
+
+        const currentMember = await ctx.db.query("members")
+            .withIndex("by_workspace_id_user_id", (q) =>
+                q.eq("workspaceId", member.workspaceId).eq("userId", userId)
+            );
+
+        if(!currentMember){
+            return null;
+        }
+
+        const user = await populateUser(ctx, member.userId);
+        if (!user) {
+            return null;
+        }
+
+        return {
+            ...member,
+            user
+        }
+    }
+})
 
 export const get = query({
     args: { workspaceId: v.id("workspaces") },
@@ -28,12 +62,12 @@ export const get = query({
             .query("members")
             .withIndex("by_workspace_id", (q) => q.eq("workspaceId", args.workspaceId))
             .collect();
-        
+
         const members = [];
         for (const member of data) {
             const user = await populateUser(ctx, member.userId);
-            if(user){
-                members.push({...member, user})
+            if (user) {
+                members.push({ ...member, user })
             }
         }
 

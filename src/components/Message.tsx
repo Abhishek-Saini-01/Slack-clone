@@ -11,6 +11,7 @@ import { Doc, Id } from "../../convex/_generated/dataModel";
 import Hint from "./Hint";
 import MessageToolbar from "./MessageToolbar";
 import Reactions from "./Reactions";
+import ThreadBar from "./ThreadBar";
 import Thumbnail from "./Thumbnail";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
@@ -42,6 +43,7 @@ interface MessageProps {
     threadCount?: number
     threadImage?: string
     threadTimestamp?: number
+    threadName?: string
 }
 const Message = ({
     body,
@@ -60,10 +62,11 @@ const Message = ({
     hideThreadButton,
     threadCount,
     threadImage,
-    threadTimestamp
+    threadTimestamp,
+    threadName
 }: MessageProps) => {
-    const { onOpenMessage, parentMessageId ,onClose } = usePanel();
-     const [ConfirmDialog, confirm] = useConfirm(
+    const { onOpenMessage, parentMessageId, onClose } = usePanel();
+    const [ConfirmDialog, confirm] = useConfirm(
         "Delete Message", "Are you sure you want to delete this message? This cannot be undone."
     )
     const avatarFallback = authorName.charAt(0).toLocaleUpperCase();
@@ -100,8 +103,8 @@ const Message = ({
         removeMessage({ messageId: id }, {
             onSuccess: () => {
                 toast.success("Message Deleted");
-                
-                if(parentMessageId === id){
+
+                if (parentMessageId === id) {
                     onClose();
                 }
             },
@@ -146,6 +149,13 @@ const Message = ({
                                 <Reactions
                                     data={reactions}
                                     onChange={handleReaction}
+                                />
+                                <ThreadBar
+                                    name={threadName}
+                                    count={threadCount}
+                                    image={threadImage}
+                                    timestamp={threadTimestamp}
+                                    onClick={() => onOpenMessage(id)}
                                 />
                             </div>
                         )}
@@ -214,6 +224,13 @@ const Message = ({
                             <Reactions
                                 data={reactions}
                                 onChange={handleReaction}
+                            />
+                            <ThreadBar
+                                name={threadName}
+                                count={threadCount}
+                                image={threadImage}
+                                timestamp={threadTimestamp}
+                                onClick={() => onOpenMessage(id)}
                             />
                         </div>
                     )}
