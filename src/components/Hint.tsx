@@ -2,10 +2,10 @@
 
 import { ReactNode } from "react";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
 } from "./ui/tooltip";
 
 interface HintProps {
@@ -23,7 +23,7 @@ const Hint = ({
   return (
     <TooltipProvider>
       <Tooltip delayDuration={50}>
-        <TooltipTrigger>
+        <TooltipTrigger asChild>
             {children}
         </TooltipTrigger>
         <TooltipContent 

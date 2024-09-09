@@ -1,6 +1,5 @@
 
-import EmojiData from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
+import EmojiPicker, { type EmojiClickData } from "emoji-picker-react";
 
 import {
     Popover,
@@ -18,7 +17,7 @@ import { ReactNode, useState } from "react";
 interface EmojiPopoverProps {
     children: ReactNode;
     hint?: string;
-    onEmojiSelect: (emoji: any) => void;
+    onEmojiSelect: (value: string) => void;
 }
 const EmojiPopover = ({
     children,
@@ -27,8 +26,8 @@ const EmojiPopover = ({
 }: EmojiPopoverProps) => {
     const [popoverOpen, setPopoverOpen] = useState(false);
     const [tooltipOpen, setTooltipOpen] = useState(false);
-    const onSelectEmoji = (emoji:any) => {
-        onEmojiSelect(emoji);
+    const onSelectEmoji = (value:EmojiClickData) => {        
+        onEmojiSelect(value.emoji);
         setPopoverOpen(false);
 
         setTimeout(() => {
@@ -49,7 +48,7 @@ const EmojiPopover = ({
                     </TooltipContent>
                 </Tooltip>
                 <PopoverContent className="p-0 w-full bg-transparent  border-none shadow-none">
-                    <Picker data={EmojiData} onEmojiSelect={onSelectEmoji} />
+                    <EmojiPicker  onEmojiClick={onSelectEmoji} />
                 </PopoverContent>
             </Popover>
         </TooltipProvider>

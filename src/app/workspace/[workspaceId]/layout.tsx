@@ -42,6 +42,7 @@ const WorkspaceIdLayout = ({ children }: WorkspaceIdLayoutProps) => {
           <ResizableHandle withHandle />
           <ResizablePanel
             minSize={20}
+            defaultValue={80}
           >
             {children}
           </ResizablePanel>

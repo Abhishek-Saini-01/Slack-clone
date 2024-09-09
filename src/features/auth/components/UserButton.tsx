@@ -31,7 +31,7 @@ const UserButton = () => {
     const avatarFallback = name!.charAt(0).toUpperCase()
     return (
         <DropdownMenu modal={false}>
-            <DropdownMenuTrigger className="outline-none relative">
+            <DropdownMenuTrigger asChild className="outline-none relative">
                 <Avatar className="rounded-md size-10 hover:opacity-75 transition">
                     <AvatarImage className="rounded-md" alt={name} src={image}/>
                     <AvatarFallback className="rounded-md bg-sky-400 text-white font-bold">
