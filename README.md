@@ -1,7 +1,7 @@
 # LIVE: https://slack-clone-self.vercel.app/
 
 ## Key Features
-🏠 Homepage
+🏠 Homepage \
 🚀 Real time communication
 👍 Reactions to messages
 🧵 Threads / Replies system
