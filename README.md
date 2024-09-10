@@ -1,4 +1,6 @@
-# LIVE: https://slack-clone-self.vercel.app/
+## Work in progress....
+
+## LIVE: https://slack-clone-self.vercel.app/
 
 ## Key Features
 🏠 Homepage \
