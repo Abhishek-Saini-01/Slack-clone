@@ -10,8 +10,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Slack clone",
-  description: "best workspaces, channels, 1:1 conversations, etc",
+  title: "👋 Slack-Clone",
+  description: "Made for people, made for productivity.",
 };
 
 export default function RootLayout({
@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <ConvexAuthNextjsServerProvider>
       <html lang="en">
-        <body className={`overflow-hidden ${inter.className}`}>
+        <body className={inter.className}>
           <ConvexClientProvider>
             <JotaiProvider>
               <Toaster position="top-center" />

@@ -1,32 +1,23 @@
 "use client";
 
-import UserButton from "@/features/auth/components/UserButton";
-import { useGetWorkspaces } from "@/features/workspaces/api/useGetWorkspaces";
-import { useCreateWorkspaceModal } from "@/features/workspaces/store/useCreateWorkspaceModal";
-import { Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import Footer from "@/components/HomePage/Footer";
+import Heading from "@/components/HomePage/Heading";
+import Heroes from "@/components/HomePage/Heroes";
+import Navbar from "@/components/HomePage/Navbar";
 
 export default function Home() {
-  const router = useRouter();
-  const [open, setOpen] = useCreateWorkspaceModal();
-  const { data, isLoading } = useGetWorkspaces();
-  const workspaceId = useMemo(() => data?.[0]?._id, [data])
-  useEffect(() => {
-    if (isLoading) {
-      return;
-    };
-    if (workspaceId) {
-      router.replace(`/workspace/${workspaceId}`)
-    } else if (!open) {
-      setOpen(true);
-    }
-  }, [workspaceId, isLoading, open, setOpen, router])
   return (
-    <div className="flex flex-col gap-y-4 items-center justify-center h-full">
-      <UserButton />
-      <Loader className="animate-spin size-9 text-muted-foreground" />
-      <p className="text-sm text-gray-500 font-semibold">Loading your workspace....</p>
+    <div className="h-full">
+      <Navbar />
+      <div className="h-full pt-40">
+        <div className="flex flex-col">
+          <div className="flex flex-col items-center justify-center md:justify-start text-center gap-y-8 flex-1 px-6 pb-10">
+            <Heading />
+            <Heroes />
+          </div>
+          <Footer />
+        </div>
+      </div>
     </div>
   );
 }
