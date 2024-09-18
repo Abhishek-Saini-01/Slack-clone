@@ -7,7 +7,8 @@ import { useGetWorkspaceById } from "@/features/workspaces/api/useGetWorkspaceBy
 import { useChannelId } from "@/hooks/useChannelId";
 import { useMemberId } from "@/hooks/useMemberId";
 import { useWorkspaceId } from "@/hooks/useWorkspaceId";
-import { AlertTriangle, HashIcon, Loader, MessageSquareText, SendHorizonal } from "lucide-react";
+import { AlertTriangle, HashIcon, Loader } from "lucide-react";
+import { usePathname } from "next/navigation";
 import SidebarItem from "./SidebarItem";
 import UserItem from "./UserItem";
 import WorkspaceHeader from "./WorkspaceHeader";
@@ -15,10 +16,14 @@ import WorkspaceSection from "./WorkspaceSection";
 
 
 const WorkspaceSidebar = () => {
+  const pathname = usePathname();
+  const isThreadsPage = pathname.includes('/threads');
+  const isDraftsPage = pathname.includes('/drafts');
+
   const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
-  const channelId = useChannelId();  
-  const [_open, setOpen ] = useCreateChannelModal();
+  const channelId = useChannelId();
+  const [_open, setOpen] = useCreateChannelModal();
 
   const { data: member, isLoading: memberLoading } = useCurrentMember({ workspaceId });
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspaceById({ id: workspaceId });
@@ -45,22 +50,24 @@ const WorkspaceSidebar = () => {
   return (
     <div className="flex flex-col bg-[#5E2C5F] h-full">
       <WorkspaceHeader workspace={workspace} isAdmin={member.role === "admin"} />
-      <div className="flex flex-col px-2 mt-3">
+      {/* <div className="flex flex-col px-2 mt-3">
         <SidebarItem
           label="Threads"
           icon={MessageSquareText}
           channelId="threads"
+          varient={isThreadsPage ? "active" : "default"}
         />
         <SidebarItem
           label="Drafts & Sent"
           icon={SendHorizonal}
           channelId="drafts"
+          varient={isDraftsPage ? "active" : "default"}
         />
-      </div>
+      </div> */}
       <WorkspaceSection
         label="channels"
         hint="New Channel"
-        onNew={member.role==="admin" ? ()=>setOpen(true):undefined}
+        onNew={member.role === "admin" ? () => setOpen(true) : undefined}
       >
         {channels?.map((item) => (
           <SidebarItem
